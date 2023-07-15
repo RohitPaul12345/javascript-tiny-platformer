@@ -27,7 +27,7 @@
   }
 
   function get(url, onsuccess) {
-    var request = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
     request.onreadystatechange = function() {
       if ((request.readyState == 4) && (request.status == 200))
         onsuccess(request);
@@ -47,7 +47,7 @@
   // GAME CONSTANTS AND VARIABLES
   //-------------------------------------------------------------------------
   
-  var MAP      = { tw: 64, th: 48 },
+  let MAP      = { tw: 64, th: 48 },
       TILE     = 32,
       METER    = TILE,
       GRAVITY  = 9.8 * 6, // default (exagerated) gravity
@@ -60,7 +60,7 @@
       COLORS   = [ COLOR.YELLOW, COLOR.BRICK, COLOR.PINK, COLOR.PURPLE, COLOR.GREY ],
       KEY      = { SPACE: 32, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 };
       
-  var fps      = 60,
+  let fps      = 60,
       step     = 1/fps,
       canvas   = document.getElementById('canvas'),
       ctx      = canvas.getContext('2d'),
@@ -71,7 +71,7 @@
       treasure = [],
       cells    = [];
   
-  var t2p      = function(t)     { return t*TILE;                  },
+  let t2p      = function(t)     { return t*TILE;                  },
       p2t      = function(p)     { return Math.floor(p/TILE);      },
       cell     = function(x,y)   { return tcell(p2t(x),p2t(y));    },
       tcell    = function(tx,ty) { return cells[tx + (ty*MAP.tw)]; };
@@ -100,7 +100,7 @@
   }
 
   function updateMonsters(dt) {
-    var n, max;
+    let n, max;
     for(n = 0, max = monsters.length ; n < max ; n++)
       updateMonster(monsters[n], dt);
   }
@@ -118,7 +118,7 @@
   }
 
   function checkTreasure() {
-    var n, max, t;
+    let n, max, t;
     for(n = 0, max = treasure.length ; n < max ; n++) {
       t = treasure[n];
       if (!t.collected && overlap(player.x, player.y, TILE, TILE, t.x, t.y, TILE, TILE))
@@ -143,7 +143,7 @@
   }
 
   function updateEntity(entity, dt) {
-    var wasleft    = entity.dx  < 0,
+    let wasleft    = entity.dx  < 0,
         wasright   = entity.dx  > 0,
         falling    = entity.falling,
         friction   = entity.friction * (falling ? 0.5 : 1),
@@ -177,7 +177,7 @@
       entity.dx = 0; // clamp at zero to prevent friction from making us jiggle side to side
     }
   
-    var tx        = p2t(entity.x),
+    let tx        = p2t(entity.x),
         ty        = p2t(entity.y),
         nx        = entity.x%TILE,
         ny        = entity.y%TILE,
@@ -250,7 +250,7 @@
   }
 
   function renderMap(ctx) {
-    var x, y, cell;
+    let x, y, cell;
     for(y = 0 ; y < MAP.th ; y++) {
       for(x = 0 ; x < MAP.tw ; x++) {
         cell = tcell(x, y);
@@ -266,7 +266,7 @@
     ctx.fillStyle = COLOR.YELLOW;
     ctx.fillRect(player.x + (player.dx * dt), player.y + (player.dy * dt), TILE, TILE);
 
-    var n, max;
+    let n, max;
 
     ctx.fillStyle = COLOR.GOLD;
     for(n = 0, max = player.collected ; n < max ; n++)
@@ -279,7 +279,7 @@
 
   function renderMonsters(ctx, dt) {
     ctx.fillStyle = COLOR.SLATE;
-    var n, max, monster;
+    let n, max, monster;
     for(n = 0, max = monsters.length ; n < max ; n++) {
       monster = monsters[n];
       if (!monster.dead)
@@ -290,7 +290,7 @@
   function renderTreasure(ctx, frame) {
     ctx.fillStyle   = COLOR.GOLD;
     ctx.globalAlpha = 0.25 + tweenTreasure(frame, 60);
-    var n, max, t;
+    let n, max, t;
     for(n = 0, max = treasure.length ; n < max ; n++) {
       t = treasure[n];
       if (!t.collected)
@@ -300,7 +300,7 @@
   }
 
   function tweenTreasure(frame, duration) {
-    var half  = duration/2
+    let half  = duration/2
         pulse = frame%duration;
     return pulse < half ? (pulse/half) : 1-(pulse-half)/half;
   }
@@ -310,7 +310,7 @@
   //-------------------------------------------------------------------------
   
   function setup(map) {
-    var data    = map.layers[0].data,
+    let data    = map.layers[0].data,
         objects = map.layers[1].objects,
         n, obj, entity;
 
@@ -328,7 +328,7 @@
   }
 
   function setupEntity(obj) {
-    var entity = {};
+    let entity = {};
     entity.x        = obj.x;
     entity.y        = obj.y;
     entity.dx       = 0;
@@ -353,7 +353,7 @@
   // THE GAME LOOP
   //-------------------------------------------------------------------------
   
-  var counter = 0, dt = 0, now,
+  let counter = 0, dt = 0, now,
       last = timestamp(),
       fpsmeter = new FPSMeter({ decimals: 0, graph: true, theme: 'dark', left: '5px' });
   
